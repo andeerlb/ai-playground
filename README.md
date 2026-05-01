@@ -7,6 +7,7 @@ This repository is dedicated to learning and practicing concepts related to AI, 
 ### 1. Machine Learning
 - Supervised Learning
 - Unsupervised Learning
+- Self-supervised learning
 - Reinforcement Learning
 - Model evaluation
 
