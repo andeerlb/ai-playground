@@ -21,7 +21,6 @@ htmlcov/
 *.pth
 *.onnx
 *.csv
-*.tsv
 *.log
 .vscode/
 .idea/
