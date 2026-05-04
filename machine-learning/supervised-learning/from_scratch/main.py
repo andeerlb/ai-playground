@@ -22,6 +22,9 @@ data = pd.read_csv(file_path, sep='\t', header=None, names=['label', 'message'])
 
 print("=== DATA INFO ===")
 print("Total samples:", len(data))
+
+# Label distribution is important to check if the dataset is balanced or imbalanced. An imbalanced dataset can lead to a model that performs well on the majority class but poorly on the minority class.
+# How it works: value_counts() counts the occurrences of each unique value in the 'label' column, giving us insight into how many messages are labeled as 'ham' and how many are labeled as 'spam'.
 print("\nLabel distribution:")
 print(data['label'].value_counts())
 
@@ -29,16 +32,20 @@ print(data['label'].value_counts())
 data['label'] = data['label'].map({'ham': 0, 'spam': 1})
 
 # TEXT -> NUMBERS
+# CountVectorizer converts a collection of text documents to a matrix of token counts. It creates a vocabulary of all the unique words in the dataset and transforms each message into a vector where each element represents the count of a specific word in that message.
 vectorizer = CountVectorizer()
 X = vectorizer.fit_transform(data['message'])
 y = data['label']
 
 # SPLIT
+# train_test_split is a function from scikit-learn that splits arrays or matrices into random train and test subsets. The test_size parameter specifies the proportion of the dataset to include in the test split (in this case, 20%), and random_state ensures that the split is reproducible.
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.2, random_state=42
 )
 
 # TRAIN
+# MultinomialNB is a Naive Bayes classifier for multinomial models, which is suitable for classification with discrete features (like word counts). It calculates the probability of each class based on the frequency of words in the training data and uses these probabilities to make predictions.
+# Naive Bayes is a simple yet effective algorithm for text classification tasks like spam detection, and it often performs well even with small datasets.
 model = MultinomialNB()
 model.fit(X_train, y_train)
 
