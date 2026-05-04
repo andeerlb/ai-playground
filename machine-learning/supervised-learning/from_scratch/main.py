@@ -1,3 +1,9 @@
+# This code is a complete implementation of a simple spam detection model using the Naive Bayes algorithm.
+# It loads a dataset of SMS messages, preprocesses the data, trains a model, evaluates its performance, and saves the model for future use.
+# The dataset is expected to be in a TSV (tab-separated values) format with two columns: 'label' (ham or spam) and 'message' (the text of the SMS).
+# Spam means the message is unwanted or unsolicited
+# ham abreviates "human" and is used to indicate that the message is not spam.
+
 import pandas as pd
 import joblib
 
@@ -37,11 +43,20 @@ model = MultinomialNB()
 model.fit(X_train, y_train)
 
 # SAVE MODEL
+
+# PKL is a common format for saving Python objects, especially in machine learning
+# It allows you to save the trained model and vectorizer so you can load them later without retraining
 joblib.dump(model, "model.pkl")
+# Saving the vectorizer is important because it contains the mapping of words to feature indices
+# When you load the model later, you'll also need the vectorizer to transform new messages into the same feature space
+# Vectorizer is not a model but a transformer, so we save it separately
+# Example of vectorizer: it might have a vocabulary like {'free': 0, 'money': 1, 'now': 2, ...}
 joblib.dump(vectorizer, "vectorizer.pkl")
 
-# EVALUATE
+# Predict is used to get the class labels (0 or 1) for the test set, while predict_proba gives the probabilities of each class
 predictions = model.predict(X_test)
+# Predict proba returns an array of shape (n_samples, n_classes) with the probabilities for each class.
+probabilities = model.predict_proba(X_test)
 
 print("\n=== EVALUATION ===")
 print("Accuracy:", accuracy_score(y_test, predictions))
@@ -58,6 +73,7 @@ for i in range(5):
     print("\nMessage:", data['message'].iloc[i])
     print("Real:", y.iloc[i])
     print("Predicted:", model.predict(X[i])[0])
+    print("Spam probability:", probabilities[i][1]) # probabilities[i][1] gives the probability of the message being spam (class 1)
 
 # CUSTOM TESTS
 print("\n=== CUSTOM TESTS ===")
