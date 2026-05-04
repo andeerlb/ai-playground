@@ -5,6 +5,7 @@
 # ham abreviates "human" and is used to indicate that the message is not spam.
 
 import pandas as pd
+# Joblib is a library for saving and loading Python objects, especially those used in machine learning like models and vectorizers. It is more efficient than pickle for large objects and is commonly used in the scikit-learn ecosystem.
 import joblib
 
 from sklearn.feature_extraction.text import CountVectorizer
